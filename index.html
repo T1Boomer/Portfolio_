@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jérémy Grossmann | Gameplay Dev</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap');
+
+        :root {
+            --neon-blue: #00f2ff;
+            --neon-purple: #bc13fe;
+            --bg-dark: #0a0a0c;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #e0e0e0;
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .font-game {
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0c 100%);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: var(--neon-blue);
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+        }
+
+        .skill-bar {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
+            width: 0%;
+            transition: width 1.5s ease-out;
+        }
+
+        /* Animation Scanlines */
+        .scanlines::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 2;
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+
+        /* Toggle Langue Style HUD */
+        .lang-switch {
+            position: relative;
+            width: 80px;
+            height: 30px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--neon-blue);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 10px;
+        }
+
+        .lang-slider {
+            position: absolute;
+            width: 36px;
+            height: 22px;
+            background: var(--neon-blue);
+            left: 4px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 0;
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .lang-switch.en .lang-slider {
+            transform: translateX(36px);
+        }
+
+        .lang-switch span {
+            position: relative;
+            z-index: 1;
+            transition: color 0.3s;
+        }
+
+        .lang-switch.fr .span-fr { color: black; }
+        .lang-switch.en .span-en { color: black; }
+
+        .glitch-text:hover {
+            text-shadow: 2px 0 var(--neon-blue), -2px 0 var(--neon-purple);
+            animation: glitch 0.3s infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+    </style>
+</head>
+<body class="scanlines">
+
+    <nav class="fixed w-full z-50 px-8 py-4 flex justify-between items-center bg-black/50 backdrop-blur-md border-b border-white/10">
+        <div class="text-2xl font-bold font-game text-white tracking-tighter">
+            GP<span class="text-cyan-400">DEV</span>_
+        </div>
+        
+        <div class="flex items-center space-x-8">
+            <div class="hidden md:flex space-x-8 font-game text-sm">
+                <a href="#projets" class="hover:text-cyan-400 transition" data-key="nav-missions">Missions</a>
+                <a href="#skills" class="hover:text-cyan-400 transition" data-key="nav-stats">Stats</a>
+            </div>
+
+            <div id="langToggle" class="lang-switch fr">
+                <div class="lang-slider"></div>
+                <span class="span-fr">FR</span>
+                <span class="span-en">EN</span>
+            </div>
+
+            <a href="#contact" class="px-4 py-2 border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black transition font-game text-sm">Contact</a>
+        </div>
+    </nav>
+
+    <section class="h-screen flex flex-col justify-center items-center text-center hero-gradient px-4">
+        <div class="mb-2 text-cyan-500 font-game animate-pulse">--- SYSTEM READY ---</div>
+        
+        <h2 class="text-2xl md:text-3xl font-game text-white mb-0 tracking-[0.3em] opacity-80">Jérémy Grossmann</h2>
+        
+        <h1 class="text-4xl md:text-7xl font-bold mb-4 glitch-text text-cyan-400" data-key="hero-title">Gameplay Developer</h1>
+        
+        <p class="text-xl text-gray-400 max-w-2xl font-light" data-key="hero-desc">
+            Donner vie aux mondes virtuels via des mécaniques fluides, des IA complexes et des sensations de jeu percutantes.
+        </p>
+        
+        <div class="mt-10">
+            <a href="#projets" class="bg-cyan-600 hover:bg-cyan-400 text-white font-game px-8 py-4 rounded-sm transition-all transform hover:scale-105" data-key="hero-btn">
+                Lancer l'exploration
+            </a>
+        </div>
+    </section>
+
+    <section id="projets" class="py-20 px-8 max-w-7xl mx-auto">
+        <h2 class="text-3xl font-game mb-12 border-l-4 border-cyan-500 pl-4" data-key="proj-title">Projets Récents</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="glass-card rounded-lg overflow-hidden group">
+                <div class="h-64 bg-gray-800 relative overflow-hidden">
+                    <img src="/Moteur2.png" alt="Projet" class="w-full object-cover opacity-75 group-hover:scale-110 transition duration-500">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2 text-cyan-400">Game Engine</h3>
+                    <p class="text-gray-400 mb-4" data-key="proj1-desc">Développement d'un moteur de jeu en C++ et DirectX12 avec création d'un jeu simple dans le thème de l'espace. L'architecture du moteur est inspirée de celle d'Unity, avec de l'ECS et des scripts. Ce projet de 3 semaines m'a permis de comprendre l'architecture et les principes d'un moteur de jeu tel qu'Unity.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">DirectX12</span>
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">HLSL</span>
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">C++</span>
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">ECS</span>
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">Script</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-lg overflow-hidden group">
+                <div class="h-64 bg-gray-800 relative overflow-hidden">
+                    <img src="/HellSurvivor.png" alt="Projet" class="w-full h-full object-cover opacity-80 group-hover:scale-110 transition duration-500">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2 text-purple-400">Hell Survivor</h3>
+                    <p class="text-gray-400 mb-4" data-key="proj2-desc">Création en une semaine d’un jeu développé sur Unity intégrant des niveaux générés procéduralement. Le joueur progresse à travers des vagues d’ennemis et, en cas de mort, est téléporté dans des enfers également générés procéduralement dont il doit s’échapper pour revenir à la surface et poursuivre son aventure.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">C#</span>
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">Unity</span>
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">Noise</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-lg overflow-hidden group">
+                <div class="h-64 bg-gray-800 relative overflow-hidden">
+                    <img src="/Multijoueur.png" alt="Projet" class="w-full h-full object-cover opacity-100 group-hover:scale-110 transition duration-500">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2 text-cyan-400">Multiplayer</h3>
+                    <p class="text-gray-400 mb-4" data-key="proj3-desc">Ce projet s’est déroulé sur une période de deux semaines, durant lesquelles nous devions concevoir un jeu multijoueur en utilisant la bibliothèque Winsock. Nous avons mis en place une architecture client-serveur, reposant sur des threads chargés de gérer l’envoi et la réception des paquets de données.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">C++</span>
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">Winsock2</span>
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">SFML</span>
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">UDP</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-lg overflow-hidden group">
+                <div class="h-64 bg-gray-800 relative overflow-hidden">
+                    <img src="/AI.png" alt="Projet" class="w-full h-mid object-cover opacity-60 group-hover:scale-110 transition duration-500">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2 text-cyan-400">Rugby Game AI</h3>
+                    <p class="text-gray-400 mb-4" data-key="proj4-desc">Création d'une simulation de partie de Rugby entre IA en 5 contre 5. Utilisation de l'architecture State Machine pour le comportement de l'intelligence artificielle. Projet réalisé en 1 semaine.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">C++</span>
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">State Machine</span>
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">AI</span>
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">SFML</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-lg overflow-hidden group">
+                <div class="h-64 bg-gray-800 relative overflow-hidden">
+                    <img src="/CasseBriqueRPG.png" alt="Projet" class="w-full h-mid object-cover opacity-60 group-hover:scale-110 transition duration-500">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2 text-cyan-400">Casse Brique RPG</h3>
+                    <p class="text-gray-400 mb-4" data-key="proj5-desc">Création d'un RPG Casse Brique. A l'aide de votre Pad berserker venez à bout de toutes les briques pour pouvoir affronter le boss la Chimère.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">C++</span>
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">SFML</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-lg overflow-hidden group">
+                <div class="h-64 bg-gray-800 relative overflow-hidden">
+                    <img src="/Enigme.png" alt="Projet" class="w-full h-mid object-cover opacity-80 group-hover:scale-110 transition duration-500">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2 text-cyan-400">Dungeon knight</h3>
+                    <p class="text-gray-400 mb-4" data-key="proj6-desc">Création d'un jeu d'égnime/parcours sur Unreal Engine 5.6.1. Le but était d'apprendre a bien gérer le lien entre C++ et blueprint, en créant une interface C++ et des sytème en C++ pour en faire dériver des blueprints et créer la logique de gameplay à l'intérieur des blueprints.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">C++</span>
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">Blueprint</span>
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">Unreal Engine</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-lg overflow-hidden group">
+                <div class="h-64 bg-gray-800 relative overflow-hidden">
+                    <img src="/FPSZombie.png" alt="Projet" class="w-full h-mid object-cover opacity-80 group-hover:scale-110 transition duration-500">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2 text-cyan-400">Zombie game</h3>
+                    <p class="text-gray-400 mb-4" data-key="proj7-desc">Création en une semaine d’un FPS de survie zombie développé sur Unity, basé sur un système de vagues avec trois niveaux jouables. Le projet intègre une IA ennemie utilisant le NavMesh, des animations d’armes et d’ennemis avec feedback visuel, ainsi qu’un système de sauvegarde des données de partie.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">C#</span>
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">Unity</span>
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">nav Mesh AI</span>
+                        <span class="text-xs border border-gray-600 px-2 py-1 rounded">Animator</span>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+    </section>
+
+    <section id="skills" class="py-20 bg-black/30">
+        <div class="max-w-4xl mx-auto px-8">
+            <h2 class="text-3xl font-game mb-12 text-center" data-key="skills-title">Fiche de Personnage (Skills)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="space-y-8">
+                    <h3 class="font-game text-sm text-gray-500 mb-6 tracking-widest">Technologies</h3>
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-2"><span class="font-bold">C++ / Unreal Engine</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="100%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-2"><span class="font-bold">C# / Unity</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="100%"></div></div>
+                    </div>
+                </div>
+                <div class="space-y-8">
+                    <h3 class="font-game text-sm text-gray-500 mb-6 tracking-widest">Gameplay</h3>
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-2"><span class="font-bold">IA</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="100%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-2"><span class="font-bold" data-key="skill-phys">Physique & Contrôleur</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="100%"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="py-20 text-center">
+        <h2 class="text-3xl font-game mb-4" data-key="footer-title">Prêt pour une nouvelle quête ?</h2>
+        <p class="text-gray-500 mb-8" data-key="footer-desc">Disponible pour des opportunités en CDI ou Freelance.</p>
+        <div class="flex justify-center space-x-6 text-2xl">
+            <a href="https://github.com/jeremy-grossmann" class="hover:text-cyan-400"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/j%C3%A9r%C3%A9my-grossmann-878617258/" class="hover:text-cyan-400"><i class="fab fa-linkedin"></i></a>
+            <a href="mailto:jeremy.grossmann107@gmail.com" class="hover:text-cyan-400"><i class="fas fa-envelope"></i></a>
+        </div>
+    </footer>
+
+    <script>
+    // --- Système de Traduction ---
+    const translations = {
+        fr: {
+            "nav-missions": "Missions",
+            "nav-stats": "Stats",
+            "hero-title": "Gameplay Developer",
+            "hero-desc": "Donner vie aux mondes virtuels via des mécaniques fluides, des IA complexes et des sensations de jeu percutantes.",
+            "hero-btn": "Lancer l'exploration",
+            "proj-title": "Projets Récents",
+            "proj1-desc": "Développement d'un moteur de jeu en C++ et DirectX12 avec création d'un jeu simple dans le thème de l'espace. L'architecture du moteur est inspirée de celle d'Unity, avec de l'ECS et des scripts. Ce projet de 3 semaines m'a permis de comprendre l'architecture et les principes d'un moteur de jeu tel qu'Unity.",
+            "proj2-desc": "Création en une semaine d’un jeu développé sur Unity intégrant des niveaux générés procéduralement. Le joueur progresse à travers des vagues d’ennemis et, en cas de mort, est téléporté dans des enfers également générés procéduralement dont il doit s’échapper pour revenir à la surface et poursuivre son aventure.",
+            "proj3-desc": "Ce projet s’est déroulé sur une période de deux semaines, durant lesquelles nous devions concevoir un jeu multijoueur en utilisant la bibliothèque Winsock. Nous avons mis en place une architecture client-serveur, reposant sur des threads chargés de gérer l’envoi et la réception des paquets de données.",
+            "proj4-desc": "Création d'une simulation de partie de Rugby entre IA en 5 contre 5. Utilisation de l'architecture State Machine pour le comportement de l'intelligence artificielle. Projet réalisé en 1 semaine.",
+            "proj5-desc": "Création d’un RPG Casse-Brique développé en C++ avec SFML, intégrant un système de progression complet avec expérience, niveaux, arbre de compétences et power-ups pour dynamiser le gameplay. Le jeu propose différentes variantes de briques ainsi qu’un combat de boss évolutif offrant un défi croissant au joueur.",
+            "proj6-desc": "Création d'un jeu d'égnime/parcours sur Unreal Engine 5.6.1. Le but était d'apprendre a bien gérer le lien entre C++ et blueprint, en créant une interface C++ et des sytème en C++ pour en faire dériver des blueprints et créer la logique de gameplay à l'intérieur des blueprints.",
+            "proj7-desc": "Création en une semaine d’un FPS de survie zombie développé sur Unity, basé sur un système de vagues avec trois niveaux jouables. Le projet intègre une IA ennemie utilisant le NavMesh, des animations d’armes et d’ennemis avec feedback visuel, ainsi qu’un système de sauvegarde des données de partie.",
+            "proj8-desc": "Création d'un jeu d'égnime/parcours sur Unreal Engine 5.6.1. Le but était d'apprendre a bien gérer le lien entre C++ et blueprint, en créant une interface C++ et des sytème en C++ pour en faire dériver des blueprints et créer la logique de gameplay à l'intérieur des blueprints.",
+            "proj9-desc": "Création d'un jeu d'égnime/parcours sur Unreal Engine 5.6.1. Le but était d'apprendre a bien gérer le lien entre C++ et blueprint, en créant une interface C++ et des sytème en C++ pour en faire dériver des blueprints et créer la logique de gameplay à l'intérieur des blueprints.",
+            "proj10-desc": "Création d'un jeu d'égnime/parcours sur Unreal Engine 5.6.1. Le but était d'apprendre a bien gérer le lien entre C++ et blueprint, en créant une interface C++ et des sytème en C++ pour en faire dériver des blueprints et créer la logique de gameplay à l'intérieur des blueprints.",
+            "skills-title": "Fiche de Personnage (Skills)",
+            "skill-phys": "Physique & Contrôleur",
+            "footer-title": "Prêt pour une nouvelle quête ?",
+            "footer-desc": "Disponible pour des opportunités en CDI ou Freelance."
+        },
+        en: {
+            "nav-missions": "Missions",
+            "nav-stats": "Stats",
+            "hero-title": "Gameplay Developer",
+            "hero-desc": "Bringing virtual worlds to life through fluid mechanics, complex AI, and impactful game feel.",
+            "hero-btn": "Start Exploration",
+            "proj-title": "Recent Projects",
+            "proj1-desc": "Development of a game engine in C++ and DirectX12 with the creation of a simple space-themed game. The engine architecture is inspired by Unity, with ECS and scripts. This three-week project allowed me to understand the architecture and principles of a game engine such as Unity.",
+            "proj2-desc": "Creation in one week of a game developed on Unity incorporating procedurally generated levels. The player progresses through waves of enemies and, in the event of death, is teleported to a procedurally generated underworld from which they must escape in order to return to the surface and continue their adventure.",
+            "proj3-desc": "This project was carried out over a two-week period, during which we had to develop a multiplayer game using the Winsock library. We implemented a client-server architecture, relying on threads to manage the sending and receiving of data packets.",
+            "proj4-desc": "Creation of a simulation of a 5-on-5 rugby match between AI players. Use of State Machine architecture for artificial intelligence behavior. Project completed in one week.",
+            "proj5-desc": "Creation of a Brick Breaker RPG developed in C++ with SFML, integrating a complete progression system with experience, levels, skill tree, and power-ups to energize gameplay. The game offers different variations of bricks as well as an evolving boss battle that provides an increasing challenge for the player.",
+            "proj6-desc" : "Creation of a puzzle/course game on Unreal Engine 5.6.1. The goal was to learn how to effectively manage the link between C++ and blueprint by creating a C++ interface and C++ systems to derive blueprints and create gameplay logic within the blueprints.",
+            "proj7-desc": "Creation in one week of a zombie survival FPS developed on Unity, based on a wave system with three playable levels. The project incorporates enemy AI using NavMesh, weapon and enemy animations with visual feedback, and a game data save system.",
+            "proj8-desc": "Création d'un jeu d'égnime/parcours sur Unreal Engine 5.6.1. Le but était d'apprendre a bien gérer le lien entre C++ et blueprint, en créant une interface C++ et des sytème en C++ pour en faire dériver des blueprints et créer la logique de gameplay à l'intérieur des blueprints.",
+            "proj9-desc": "Création d'un jeu d'égnime/parcours sur Unreal Engine 5.6.1. Le but était d'apprendre a bien gérer le lien entre C++ et blueprint, en créant une interface C++ et des sytème en C++ pour en faire dériver des blueprints et créer la logique de gameplay à l'intérieur des blueprints.",
+            "proj10-desc": "Création d'un jeu d'égnime/parcours sur Unreal Engine 5.6.1. Le but était d'apprendre a bien gérer le lien entre C++ et blueprint, en créant une interface C++ et des sytème en C++ pour en faire dériver des blueprints et créer la logique de gameplay à l'intérieur des blueprints.",
+            "skills-title": "Character Sheet (Skills)",
+            "skill-phys": "Physics & Controller",
+            "footer-title": "Ready for a new quest?",
+            "footer-desc": "Available for Full-time or Freelance opportunities."
+        }
+    };
+
+    let currentLang = 'fr';
+    const langToggle = document.getElementById('langToggle');
+
+    langToggle.addEventListener('click', () => {
+        currentLang = currentLang === 'fr' ? 'en' : 'fr';
+        
+        // Update Toggle UI
+        langToggle.className = `lang-switch ${currentLang}`;
+        
+        // Update Content
+        document.querySelectorAll('[data-key]').forEach(el => {
+            const key = el.getAttribute('data-key');
+            el.innerText = translations[currentLang][key];
+        });
+    });
+
+    // --- Animation Skills ---
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const progressBar = entry.target.querySelector('.skill-progress');
+                if (progressBar) {
+                    progressBar.style.width = progressBar.getAttribute('data-width');
+                }
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.skill-item').forEach(item => observer.observe(item));
+
+    // --- Smooth Scroll ---
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+    </script>
+</body>
+</html>
