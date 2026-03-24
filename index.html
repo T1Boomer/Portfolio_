@@ -171,9 +171,22 @@
         <h2 class="text-3xl font-game mb-12 border-l-4 border-cyan-500 pl-4" data-key="proj-title">Projets Récents</h2>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="glass-card rounded-lg overflow-hidden group">
-                <div class="h-64 bg-gray-800 relative overflow-hidden">
-                    <img src="Images/Moteur2.png" alt="Projet" class="w-full object-cover opacity-75 group-hover:scale-110 transition duration-500">
+
+            <!-- Projet Moteur -->
+
+            <div class="glass-card rounded-lg overflow-hidden group" data-images='["Images/Moteur3.png","Images/Moteur4.png"]'>
+                <div class="relative h-64 overflow-hidden">
+                    <img class="project-img w-full h-full object-cover" src="Images/Moteur3.png">
+
+                    <!-- Bouton gauche -->
+                    <button class="prev absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 px-2 py-1">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+
+                    <!-- Bouton droite -->
+                    <button class="next absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 px-2 py-1">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
                 </div>
                 <div class="p-6">
                     <h3 class="text-xl font-bold mb-2 text-cyan-400">Game Engine</h3>
@@ -186,11 +199,19 @@
                         <span class="text-xs border border-gray-600 px-2 py-1 rounded">Script</span>
                     </div>
                 </div>
+                <a href="https://youtu.be/WGdv9t-NEcE"
+                    target="_blank"
+                    class="inline-block mt-2 text-sm border border-cyan-400 px-3 py-1 hover:bg-cyan-400 hover:text-black transition">
+                    ▶ Voir la démo
+                </a>
+
             </div>
+
+            <!-- Projet Procédural -->
 
             <div class="glass-card rounded-lg overflow-hidden group" data-images='["Images/HellSurvivor.png","Images/HellSurvivorGame.png","Images/HellSurvivorMenu.png"]'>
                 <div class="relative h-64 overflow-hidden">
-                    <img class="project-img w-full h-full object-cover" src="Images/HellSurvivor.png">
+                    <img class="project-img w-full h-full object-cover" src="Images/HellSurvivorGame.png">
 
                     <!-- Bouton gauche -->
                     <button class="prev absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 px-2 py-1">
@@ -229,6 +250,8 @@
                 </div>
             </div>
 
+            <!-- Projet Rugby IA -->
+
             <div class="glass-card rounded-lg overflow-hidden group">
                 <div class="h-64 bg-gray-800 relative overflow-hidden">
                     <img src="Images/AI.png" alt="Projet" class="w-full h-mid object-cover opacity-60 group-hover:scale-110 transition duration-500">
@@ -243,11 +266,18 @@
                         <span class="text-xs border border-gray-600 px-2 py-1 rounded">SFML</span>
                     </div>
                 </div>
+                <a href="https://youtu.be/YisQDcTP9yc"
+                target="_blank"
+                class="inline-block mt-2 text-sm border border-cyan-400 px-3 py-1 hover:bg-cyan-400 hover:text-black transition">
+                ▶ Voir la démo
+                </a>
             </div>
 
-            <div class="glass-card rounded-lg overflow-hidden group" data-images='["Images/CasseBriqueRPG.png","Images/CasseBriqueRPG2.png","Images/CasseBriqueRPG3.png","Images/CasseBriqueRPG4.png"]'>
+            <!-- Projet Casse Brique RPG -->
+
+            <div class="glass-card rounded-lg overflow-hidden group" data-images='["Images/CasseBriqueRPG2.png","Images/CasseBriqueRPG3.png","Images/CasseBriqueRPG4.png"]'>
                 <div class="relative h-64 overflow-hidden">
-                    <img class="project-img w-full h-mid object-cover" src="Images/CasseBriqueRPG.png">
+                    <img class="project-img w-full h-mid object-cover" src="Images/CasseBriqueRPG2.png">
 
                     <!-- Bouton gauche -->
                     <button class="prev absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 px-2 py-1">
@@ -268,11 +298,13 @@
                     </div>
                 </div>
                 <a href="https://youtu.be/yVgt08NtXZk"
-                    target="_blank"
-                    class="inline-block mt-2 text-sm border border-cyan-400 px-3 py-1 hover:bg-cyan-400 hover:text-black transition">
-                    ▶ Voir la démo
+                target="_blank"
+                class="inline-block mt-2 text-sm border border-cyan-400 px-3 py-1 hover:bg-cyan-400 hover:text-black transition">
+                ▶ Voir la démo
                 </a>
             </div>
+
+            <!-- Projet Unreal Enigme -->
 
             <div class="glass-card rounded-lg overflow-hidden group">
                 <div class="h-64 bg-gray-800 relative overflow-hidden">
@@ -289,9 +321,21 @@
                 </div>
             </div>
 
-            <div class="glass-card rounded-lg overflow-hidden group">
-                <div class="h-64 bg-gray-800 relative overflow-hidden">
-                    <img src="Images/FPSZombie.png" alt="Projet" class="w-full h-mid object-cover opacity-80 group-hover:scale-110 transition duration-500">
+            <!-- Projet Zombie FPS -->
+
+            <div class="glass-card rounded-lg overflow-hidden group" data-images='["Images/FPSZombie.png","Images/FPSZombieMenu.png","Images/FPSZombie2.png"]'>
+                <div class="relative h-64 overflow-hidden">
+                    <img class="project-img w-full h-mid object-cover" src="Images/FPSZombie.png">
+
+                    <!-- Bouton gauche -->
+                    <button class="prev absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 px-2 py-1">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+
+                    <!-- Bouton droite -->
+                    <button class="next absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 px-2 py-1">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
                 </div>
                 <div class="p-6">
                     <h3 class="text-xl font-bold mb-2 text-cyan-400">Zombie game</h3>
@@ -303,6 +347,11 @@
                         <span class="text-xs border border-gray-600 px-2 py-1 rounded">Animator</span>
                     </div>
                 </div>
+                <a href="https://youtu.be/kyolaTA9qew"
+                target="_blank"
+                class="inline-block mt-2 text-sm border border-cyan-400 px-3 py-1 hover:bg-cyan-400 hover:text-black transition">
+                ▶ Voir la démo
+                </a>
             </div>
 
             
